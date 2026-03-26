@@ -96,13 +96,11 @@ Inclui:
 
 * Conversão de tipos
 * Padronização de campos
-* Tratamento de inconsistências
-* Transformação de endereço
+* Tratamento de inconsistênciaso
 * Validação entre tabelas
 
 Arquivos relacionados:
 
-* `python/transform_address.py`
 * `sql/silver/`
 
 ---
