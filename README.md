@@ -96,7 +96,7 @@ Inclui:
 
 * Conversão de tipos
 * Padronização de campos
-* Tratamento de inconsistênciaso
+* Tratamento de inconsistências
 * Validação entre tabelas
 
 Arquivos relacionados:
