@@ -21,6 +21,7 @@ CREATE TABLE silver.hr_personal (
     email NVARCHAR(150),
     phone NVARCHAR(20),
     birth_date DATE NOT NULL,
+    is_birth_date_suspect BIT NOT NULL DEFAULT 0,
     gender NVARCHAR(1) NOT NULL,
     street NVARCHAR(255),
     street_name NVARCHAR(255),

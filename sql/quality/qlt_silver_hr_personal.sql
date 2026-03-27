@@ -93,3 +93,16 @@ WHERE zipcode IS NULL
 SELECT *
 FROM silver.hr_personal
 WHERE building_number IS NULL;
+
+-- 14. Validar se a flag de suspeita de idade está correta
+-- O teste deve retornar 0 linhas se a lógica da Procedure estiver certa.
+SELECT *
+FROM silver.hr_personal
+WHERE is_birth_date_suspect = 0 
+  AND (DATEDIFF(YEAR, birth_date, GETDATE()) < 16 
+       OR DATEDIFF(YEAR, birth_date, GETDATE()) > 90);
+
+-- 15. Verificar o impacto da qualidade (Informativo)
+SELECT is_birth_date_suspect, COUNT(*) AS total
+FROM silver.hr_personal
+GROUP BY is_birth_date_suspect;

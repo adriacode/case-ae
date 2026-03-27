@@ -44,6 +44,7 @@ BEGIN
             email,
             phone,
             birth_date,
+            is_birth_date_suspect,
             gender,
             street,
             street_name,
@@ -66,6 +67,11 @@ BEGIN
             LOWER(TRIM(email)) AS email,
             TRIM(phone) AS phone,
             TRY_CAST(birthday AS DATE) AS birth_date,
+            CASE 
+                WHEN DATEDIFF(YEAR, TRY_CAST(birthday AS DATE), GETDATE()) < 16 
+                  OR DATEDIFF(YEAR, TRY_CAST(birthday AS DATE), GETDATE()) > 90 THEN 1
+                ELSE 0
+            END AS is_birth_date_suspect,
             CASE 
                 WHEN UPPER(TRIM(gender)) IN ('MALE', 'M') THEN 'M'
                 WHEN UPPER(TRIM(gender)) IN ('FEMALE', 'F') THEN 'F'

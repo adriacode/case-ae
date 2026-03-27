@@ -74,11 +74,20 @@ FROM bronze.hr_personal
 WHERE phone LIKE '%[^0-9]%';
 
 -- 7. Validar datas (birthday)
-SELECT *
+SELECT 
+    id,
+    firstname,
+    lastname,
+    birthday,
+    DATEDIFF(YEAR, TRY_CAST(birthday AS DATE), GETDATE()) AS age_calculated
 FROM bronze.hr_personal
 WHERE TRY_CAST(birthday AS DATE) IS NULL
    OR birthday > GETDATE()
-   OR birthday < '1900-01-01';
+   OR birthday < '1900-01-01'
+   -- Identifica idades abaixo da idade mínima legal (ex: < 16)
+   OR DATEDIFF(YEAR, TRY_CAST(birthday AS DATE), GETDATE()) < 16
+   -- Identifica idades acima da expectativa de vida corporativa (ex: > 90)
+   OR DATEDIFF(YEAR, TRY_CAST(birthday AS DATE), GETDATE()) > 90;
 
 -- 8. Validar valores de gênero
 SELECT DISTINCT gender
