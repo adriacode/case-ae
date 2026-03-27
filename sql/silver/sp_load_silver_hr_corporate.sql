@@ -44,6 +44,7 @@ BEGIN
             salary, 
             admission_date, 
             employment_type,
+            is_employment_type_adjusted,
             create_date
         )
         SELECT
@@ -56,12 +57,14 @@ BEGIN
             TRY_CAST(salary AS DECIMAL(10, 2)) AS salary,
             TRY_CAST(admission_date AS DATE) AS admission_date,
             CASE 
-                WHEN UPPER(TRIM(position)) LIKE '%INTERN%' THEN 'INTERN'
-                WHEN UPPER(TRIM(position)) NOT LIKE '%INTERN%' 
-                    AND UPPER(TRIM(employment_type)) = 'INTERN' 
-                    THEN 'CLT'
+                WHEN UPPER(TRIM(position)) LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) <> 'INTERN' THEN 'INTERN'
+                WHEN UPPER(TRIM(position)) NOT LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) = 'INTERN' THEN 'CLT'
                 ELSE UPPER(TRIM(employment_type))
             END AS employment_type,
+            CASE WHEN UPPER(TRIM(position)) LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) <> 'INTERN' THEN 1
+                 WHEN UPPER(TRIM(position)) NOT LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) = 'INTERN' THEN 1
+                 ELSE 0
+            END AS is_employment_type_adjusted,
             create_date
         FROM bronze.hr_corporate;  
         SET @end_time = GETDATE();

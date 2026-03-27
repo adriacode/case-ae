@@ -54,10 +54,12 @@ BEGIN
             country_code,
             latitude,
             longitude,
+            website,
+            image_url,
             create_date
         )
         SELECT 
-            ROW_NUMBER() OVER(ORDER BY create_date) AS personal_id,
+            ROW_NUMBER() OVER(ORDER BY create_date, firstname, lastname) AS personal_id,
             TRIM(firstname) AS first_name,
             TRIM(lastname) AS last_name,
             CONCAT(TRIM(firstname), ' ', TRIM(lastname)) AS full_name,
@@ -67,7 +69,7 @@ BEGIN
             CASE 
                 WHEN UPPER(TRIM(gender)) IN ('MALE', 'M') THEN 'M'
                 WHEN UPPER(TRIM(gender)) IN ('FEMALE', 'F') THEN 'F'
-                ELSE NULL
+                ELSE 'U'
             END AS gender,
             TRIM(street) AS street,
             TRIM(streetName) AS street_name,
@@ -76,8 +78,10 @@ BEGIN
             TRIM(zipcode) AS zipcode,
             TRIM(country) AS country,
             TRIM(country_code) AS country_code,
-            TRY_CAST(latitude AS FLOAT) AS latitude,
-            TRY_CAST(longitude AS FLOAT) AS longitude,
+            TRY_CAST(latitude AS DECIMAL(9, 6)) AS latitude,
+            TRY_CAST(longitude AS DECIMAL(9, 6)) AS longitude,
+            TRIM(website) AS website,
+            TRIM(image) AS image_url,
             create_date
         FROM bronze.hr_personal;
         SET @end_time = GETDATE();
