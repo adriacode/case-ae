@@ -87,58 +87,58 @@ IF OBJECT_ID('gold.view_workforce_dashboard', 'V') IS NOT NULL
 GO
 
 CREATE VIEW gold.view_workforce_dashboard AS
-WITH base_employees AS
-(
-SELECT c.employee_id, 
-       c.department, 
-       c.position, 
-       c.employment_type,
-       c.is_employment_type_adjusted,
-       c.salary,
-       p.gender, 
-       p.country,
-       p.is_birth_date_suspect,
-       DATEDIFF(year, p.birth_date, GETDATE()) AS age_years,
-       DATEDIFF(day, c.admission_date, GETDATE()) AS tenure_days
-FROM silver.hr_corporate c
-INNER JOIN silver.hr_personal p ON p.personal_id = c.employee_id
+WITH base_data AS (
+    SELECT c.*,
+           p.gender, 
+           p.country,
+           p.is_birth_date_suspect,
+           p.birth_date,
+           DATEDIFF(year, p.birth_date, GETDATE()) AS age_years,
+           DATEDIFF(day, c.admission_date, GETDATE()) AS tenure_days,
+           -- Contagens para o Ranking/Percentual
+           COUNT(*) OVER(PARTITION BY c.department, c.position) AS count_pos_dept,
+           COUNT(*) OVER(PARTITION BY c.department) AS count_dept
+    FROM silver.hr_corporate c
+    INNER JOIN silver.hr_personal p ON p.personal_id = c.employee_id
 ),
-reference_data AS
-(
+enriched_data AS (
     SELECT *,
            CASE 
-               WHEN is_birth_date_suspect = 1 THEN 'Unvalid Birth Date'
-               WHEN age_years >= 16 AND age_years <= 25 THEN '16-25'
-               WHEN age_years > 25 AND age_years <= 35 THEN '26-35'
-               WHEN age_years > 35 AND age_years <= 45 THEN '36-45'
-               WHEN age_years > 45 AND age_years <= 60 THEN '46-60'
+               WHEN is_birth_date_suspect = 1 THEN 'Invalid Birth Date'
+               WHEN age_years BETWEEN 16 AND 25 THEN '16-25'
+               WHEN age_years BETWEEN 26 AND 35 THEN '26-35'
+               WHEN age_years BETWEEN 36 AND 45 THEN '36-45'
+               WHEN age_years BETWEEN 46 AND 60 THEN '46-60'
                ELSE '60+'
            END AS age_band,
            CASE 
                WHEN tenure_days < 365 THEN '0-1 year'
-               WHEN tenure_days >= 365 AND tenure_days < 365*3 THEN '1-3 years'
-               WHEN tenure_days >= 365*3 AND tenure_days < 365*5 THEN '3-5 years'
+               WHEN tenure_days BETWEEN 365 AND 1094 THEN '1-3 years'
+               WHEN tenure_days BETWEEN 1095 AND 1824 THEN '3-5 years'
                ELSE '5+ years'
            END AS retention_band
-    FROM base_employees
-),
-cross_tab AS
-(
-SELECT r.*,
-       vs.avg_salary,
-       vs.median_salary,
-       vs.stdev_salary,
-       vs.cv_salary,
-       vs.min_salary,
-       vs.max_salary,
-       vs.flag_salary,
-       vt.avg_tenure,
-       vt.median_tenure,
-       vt.headcount_in_band
-FROM reference_data r
-LEFT JOIN gold.view_salary_by_department vs ON r.department = vs.department AND r.position = vs.position
-LEFT JOIN gold.view_tenure vt ON r.department = vt.department AND r.employment_type = vt.employment_type AND r.retention_band = vt.retention_band
+    FROM base_data
 )
-SELECT *
-FROM cross_tab;
+SELECT 
+    r.employee_id, r.department, r.position, r.employment_type, r.salary,
+    r.gender, r.country, r.age_band, r.retention_band,
+    CASE
+         WHEN r.is_employment_type_adjusted = 1 OR r.is_birth_date_suspect = 1 THEN 'Requires Review'
+         ELSE 'Clean Data'
+    END AS data_quality_status,
+    vs.avg_salary, vs.median_salary, vs.stdev_salary, vs.cv_salary,
+    vs.min_salary, vs.max_salary, vs.flag_salary, 
+    vt.avg_tenure, vt.median_tenure, vt.headcount_in_band,
+    CAST(r.count_pos_dept * 100.0 / r.count_dept AS DECIMAL(5,2)) AS pct_position_in_dept,
+    DENSE_RANK() OVER(PARTITION BY r.department ORDER BY r.count_pos_dept DESC) AS common_position_rank
+
+FROM enriched_data r
+LEFT JOIN gold.view_salary_by_department vs 
+    ON r.department = vs.department AND r.position = vs.position
+LEFT JOIN gold.view_tenure vt 
+    ON r.department = vt.department 
+    AND r.employment_type = vt.employment_type 
+    AND r.retention_band = vt.retention_band;
 GO
+
+SELECT * FROM gold.view_workforce_dashboard;
