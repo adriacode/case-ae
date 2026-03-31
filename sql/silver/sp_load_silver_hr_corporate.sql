@@ -9,16 +9,8 @@ Objetivo do Script:
     Ações Executadas:
         - Trunca as tabelas da camada Silver. 
         - Insere dados transformados e limpos, provenientes da camada Bronze, nas tabelas Silver.
-
-Parâmetros:
-    Nenhum.
-        Esta stored procedure não aceita parâmetros nem retorna valores.
-
-Exemplo de Uso:
-EXEC silver.load_silver_hr_corporate;
 ===============================================================================
 */
-
 
 CREATE OR ALTER PROCEDURE silver.load_silver_hr_corporate AS
 BEGIN
@@ -28,14 +20,11 @@ BEGIN
         PRINT 'Iniciando carga: silver.hr_corporate';
         PRINT '================================================';
 
-		PRINT '------------------------------------------------';
-		PRINT 'Carregando tabela hr_corporate';
-		PRINT '------------------------------------------------';       
-
-        -- Carregando silver.hr_corporate
         SET @start_time = GETDATE();
+        
         PRINT '>> Truncando Tabela: silver.hr_corporate';
         TRUNCATE TABLE silver.hr_corporate;
+
         PRINT '>> Inserindo dados na Tabela: silver.hr_corporate';
         INSERT INTO silver.hr_corporate (
             employee_id, 
@@ -48,25 +37,44 @@ BEGIN
             create_date
         )
         SELECT
+            -- Tipagem de identificador para formato inteiro
             TRY_CAST(employee_id AS INT) AS employee_id,
+            
+            -- Padronização de strings para consistência em filtros
             TRIM(department) AS department,
+            
+            -- Enriquecimento: Detalha o cargo de estagiário conforme o departamento
             CASE
                 WHEN UPPER(TRIM(position)) = 'INTERN' THEN CONCAT(TRIM(department), ' Intern')
                 ELSE TRIM(position)
             END AS position,
-            TRY_CAST(salary AS DECIMAL(10, 2)) AS salary,
+            
+            -- Sanidade: Impede que valores negativos corrompam cálculos salariais
+            CASE 
+                WHEN TRY_CAST(salary AS DECIMAL(10, 2)) < 0 THEN 0 
+                ELSE TRY_CAST(salary AS DECIMAL(10, 2)) 
+            END AS salary,
+            
+            -- Conversão de texto bruto para o tipo relacional DATE
             TRY_CAST(admission_date AS DATE) AS admission_date,
+            
+            -- Regra de Negócio: Validação cruzada para alinhar cargo e tipo de contrato
             CASE 
                 WHEN UPPER(TRIM(position)) LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) <> 'INTERN' THEN 'INTERN'
                 WHEN UPPER(TRIM(position)) NOT LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) = 'INTERN' THEN 'CLT'
                 ELSE UPPER(TRIM(employment_type))
             END AS employment_type,
-            CASE WHEN UPPER(TRIM(position)) LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) <> 'INTERN' THEN 1
+            
+            -- Linhagem: Flag que rastreia se o registro sofreu ajuste no pipeline
+            CASE 
+                WHEN UPPER(TRIM(position)) LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) <> 'INTERN' THEN 1
                  WHEN UPPER(TRIM(position)) NOT LIKE '%INTERN%' AND UPPER(TRIM(employment_type)) = 'INTERN' THEN 1
                  ELSE 0
             END AS is_employment_type_adjusted,
+            
             create_date
         FROM bronze.hr_corporate;  
+
         SET @end_time = GETDATE();
         PRINT '>> Duração do carregamento: ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR) + ' segundos';
         PRINT '>> -------------';
@@ -74,10 +82,8 @@ BEGIN
     END TRY
     BEGIN CATCH
         PRINT '================================================';
-        PRINT 'OCORREU UM ERRO DURANTE O PROCESSO DE CARREGAMENTO DA CAMADA SILVER';
-        PRINT 'Mensagem de erro:' + ERROR_MESSAGE();
-        PRINT 'Código de erro:' + CAST(ERROR_NUMBER() AS NVARCHAR);
-        PRINT 'Estado de erro:' + CAST(ERROR_STATE() AS NVARCHAR);
+        PRINT 'OCORREU UM ERRO DURANTE O PROCESSO DE CARREGAMENTO';
+        PRINT 'Mensagem de erro: ' + ERROR_MESSAGE();
         PRINT '================================================';
     END CATCH
 END

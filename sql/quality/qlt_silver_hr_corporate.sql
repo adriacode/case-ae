@@ -13,58 +13,54 @@ Regras:
 ===============================================================================
 */
 
--- 1. Verificar duplicidade de employee_id
+-- 1. Garante a unicidade dos registros e evita duplicados na chave primária
 SELECT employee_id, COUNT(*) AS quantidade
 FROM silver.hr_corporate
 GROUP BY employee_id
 HAVING COUNT(*) > 1;
 
--- 2. Verificar employee_id nulos
+-- 2. Identifica registros sem o identificador obrigatório do funcionário
 SELECT *
 FROM silver.hr_corporate
 WHERE employee_id IS NULL;
 
--- 3. Verificar espaços indesejados
+-- 3. Valida se a limpeza de espaços (TRIM) foi aplicada corretamente em campos de texto
 SELECT *
 FROM silver.hr_corporate
-WHERE department LIKE ' %'
-   OR department LIKE '% '
-   OR position LIKE ' %'
-   OR position LIKE '% '
-   OR employment_type LIKE ' %'
-   OR employment_type LIKE '% ';
+WHERE department LIKE ' %' OR department LIKE '% '
+   OR position LIKE ' %' OR position LIKE '% '
+   OR employment_type LIKE ' %' OR employment_type LIKE '% ';
 
--- 4. Padronização de valores categóricos
+-- 4. Permite validar visualmente a padronização e agrupamento dos valores categóricos
 SELECT DISTINCT department FROM silver.hr_corporate ORDER BY department;
 SELECT DISTINCT position FROM silver.hr_corporate ORDER BY position;
 SELECT DISTINCT employment_type FROM silver.hr_corporate ORDER BY employment_type;
 
--- 5. Verificar valores nulos em campos críticos
+-- 5. Identifica a ausência de dados em colunas críticas para o processamento da folha
 SELECT *
 FROM silver.hr_corporate
-WHERE employee_id IS NULL
-   OR department IS NULL
+WHERE department IS NULL
    OR position IS NULL
    OR salary IS NULL
    OR admission_date IS NULL;
 
--- 6. Validar salary (não pode ser negativo ou zero)
+-- 6. Garante a integridade financeira impedindo salários negativos ou zerados
 SELECT *
 FROM silver.hr_corporate
 WHERE salary <= 0;
 
--- 7. Validar admission_date
+-- 7. Valida a consistência temporal das admissões (evita datas futuras ou muito antigas)
 SELECT *
 FROM silver.hr_corporate
 WHERE admission_date > GETDATE()
    OR admission_date < '1990-01-01';
 
--- 8. Validar domínio de employment_type
+-- 8. Garante que os tipos de contrato estejam restritos ao domínio permitido (Upper Case)
 SELECT *
 FROM silver.hr_corporate
 WHERE employment_type NOT IN ('CLT', 'INTERN', 'PJ', 'TEMPORARY');
 
--- 9. Consistência entre cargo e tipo de contrato
+-- 9. Valida se a regra de negócio de alinhamento entre Cargo e Contrato foi eficaz
 SELECT 
     position, 
     employment_type, 
@@ -73,7 +69,7 @@ FROM silver.hr_corporate
 GROUP BY position, employment_type
 ORDER BY position;
 
--- 10. Interns por departamento
+-- 10. Valida o enriquecimento dos nomes de cargos para a categoria de estagiários
 SELECT 
     department,
     COUNT(*) AS total_interns
