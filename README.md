@@ -19,7 +19,7 @@ A arquitetura segue o modelo **Medalhão (Bronze → Silver → Gold)**, garanti
 
 ## 🏗️ Arquitetura
 
-![Arquitetura do Projeto](docs/architecture.png)
+![Arquitetura do Projeto](docs/architecture.jpg)
 
 A solução utiliza serviços em nuvem da Azure:
 
@@ -44,25 +44,25 @@ A solução utiliza serviços em nuvem da Azure:
 case-ae/
 │
 ├── data/
+│
 ├── docs/
-│ ├── data_dictionary.md
-│ └── architecture.png
+│   ├── data_dictionary.md
+│   └── architecture.jpg
 │
 ├── python/
-│ ├── extract_hr_personal_data.py
-│ ├── ingest_data_blob_storage.py
-│ ├── transform_address.py
-│ └── main.py
+│   ├── extract_hr_personal_data.py
+│   ├── ingest_data_blob_storage.py
+│   ├── transform_address.py
+│   └── main.py
 │
 ├── sql/
-│ ├── bronze/
-│ ├── silver/
-│ ├── gold/
-│ └── quality/
+│   ├── bronze/
+│   ├── silver/
+│   ├── gold/
+│   └── quality/
 │
 ├── .env
 └── README.md
-
 
 ---
 
