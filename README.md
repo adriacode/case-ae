@@ -1,144 +1,152 @@
-# HR Data Pipeline
+# 📊 People Data Platform
 
-## Visão Geral
-
-Este projeto implementa um pipeline de dados para consolidação de informações de Recursos Humanos da DataPeople Corp., integrando dados de uma API e de arquivos CSV.
-
-O objetivo é centralizar, tratar e disponibilizar os dados de forma confiável para análise, utilizando a arquitetura Bronze, Silver e Gold.
-
----
-
-## Arquitetura
-
-A solução utiliza:
-
-* Azure Storage Account (armazenamento dos dados brutos)
-* Azure Data Factory (orquestração do pipeline)
-* Azure SQL Database (camadas tratadas e analíticas)
-
-Fluxo geral:
-
-1. Extração dos dados da API via Python
-2. Transformação dos dados em memória (incluindo normalização de endereço)
-3. Ingestão dos dados no Data Lake (Bronze)
-4. Transformações e carga no banco (Silver)
-5. Criação de views analíticas (Gold)
+![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Azure](https://img.shields.io/badge/Azure-Data%20Platform-0078D4)
+![SQL](https://img.shields.io/badge/SQL-Database-orange)
+![Status](https://img.shields.io/badge/Status-Completed-success)
 
 ---
 
-## Estrutura do Projeto
+## 📌 Visão Geral
 
-```id="4o8kwu"
+Este projeto implementa um pipeline de dados para consolidação de informações de Recursos Humanos da **DataPeople Corp.**
+
+A solução integra dados de múltiplas fontes (API e arquivos CSV), aplicando processos de padronização, validação e enriquecimento, com o objetivo de disponibilizar dados confiáveis para análise estratégica.
+
+A arquitetura segue o modelo **Medalhão (Bronze → Silver → Gold)**, garantindo escalabilidade, governança e qualidade dos dados.
+
+---
+
+## 🏗️ Arquitetura
+
+![Arquitetura do Projeto](docs/architecture.png)
+
+A solução utiliza serviços em nuvem da Azure:
+
+- **Azure Storage Account** → armazenamento dos dados brutos  
+- **Azure Data Factory** → orquestração do pipeline  
+- **Azure SQL Database** → processamento e camada analítica  
+
+---
+
+## 🔄 Fluxo do Pipeline
+
+1. Extração dos dados da API via Python  
+2. Transformação inicial (normalização de endereço)  
+3. Ingestão no Data Lake (Bronze)  
+4. Processamento e padronização (Silver)  
+5. Criação de views analíticas (Gold)  
+
+---
+
+## 📁 Estrutura do Projeto
+
 case-ae/
 │
 ├── data/
+├── docs/
+│ ├── data_dictionary.md
+│ └── architecture.png
+│
 ├── python/
-│   ├── extract_hr_personal_data.py
-│   ├── ingest_data_blob_storage.py
-│   ├── transform_address.py
-│   └── main.py
+│ ├── extract_hr_personal_data.py
+│ ├── ingest_data_blob_storage.py
+│ ├── transform_address.py
+│ └── main.py
 │
 ├── sql/
-│   ├── bronze/
-│   ├── silver/
-│   ├── gold/
-│   └── quality/
+│ ├── bronze/
+│ ├── silver/
+│ ├── gold/
+│ └── quality/
 │
-└── .env
-```
+├── .env
+└── README.md
+
 
 ---
 
-## Fontes de Dados
+## 📘 Data Dictionary
 
-**API (dados cadastrais):**
+A documentação detalhada das tabelas (Bronze, Silver e Gold) está disponível em:
 
-* employee_id
-* first_name
-* last_name
-* email
-* phone_number
-* birth_date
-* gender
-* address
-
-**CSV (dados corporativos):**
-
-* employee_id
-* department
-* position
-* salary
-* admission_date
-* employment_type
+👉 [Data Dictionary](docs/data_dictionary.md)
 
 ---
 
-## Camadas de Dados
+## 📥 Fontes de Dados
 
-### Bronze
+### API (dados pessoais)
 
-Armazena os dados brutos sem qualquer transformação.
+- employee_id  
+- first_name  
+- last_name  
+- email  
+- phone_number  
+- birth_date  
+- gender  
+- address  
 
-Arquivos relacionados:
+### CSV (dados corporativos)
 
-* `python/extract_hr_personal_data.py`
-* `python/ingest_data_blob_storage.py`
-* `data/`
-* `sql/bronze/`
-
----
-
-### Silver
-
-Responsável pela padronização e limpeza dos dados.
-
-Inclui:
-
-* Conversão de tipos
-* Padronização de campos
-* Tratamento de inconsistências
-* Validação entre tabelas
-
-Arquivos relacionados:
-
-* `sql/silver/`
+- employee_id  
+- department  
+- position  
+- salary  
+- admission_date  
+- employment_type  
 
 ---
 
-### Gold
+## 🥉 Camada Bronze
 
-Camada de consumo com views voltadas para análise.
-
-Inclui:
-
-* métricas salariais por departamento
-* tempo de casa
-* visão consolidada da força de trabalho
-
-Arquivos relacionados:
-
-* `sql/gold/`
+Armazena os dados brutos sem transformação.
 
 ---
 
-## Qualidade de Dados
+## 🥈 Camada Silver
+
+Responsável pelo tratamento e padronização:
+
+- Conversão de tipos  
+- Padronização de campos  
+- Tratamento de inconsistências  
+- Validação de dados  
+
+---
+
+## 🥇 Camada Gold
+
+Camada analítica com dados prontos para consumo:
+
+- Métricas salariais por departamento  
+- Tempo de empresa (tenure)  
+- Visão consolidada da força de trabalho  
+
+---
+
+## ✅ Qualidade de Dados
 
 Validações implementadas:
 
-* valores nulos
-* duplicidade
-* inconsistências de formato
-* dados inválidos
-
-Arquivos:
-
-* `sql/quality/`
+- Verificação de valores nulos  
+- Detecção de duplicidade  
+- Validação de formatos  
+- Identificação de inconsistências  
 
 ---
 
-## Tecnologias
+## ⚙️ Tecnologias Utilizadas
 
-* Python
-* Azure Data Factory
-* Azure Storage
-* Azure SQL Database
+- Python  
+- Azure Data Factory  
+- Azure Storage  
+- Azure SQL Database  
+
+---
+
+## 🎯 Objetivo
+
+Fornecer uma base de dados confiável, padronizada e escalável para suportar análises estratégicas e tomada de decisão.
+
+---
