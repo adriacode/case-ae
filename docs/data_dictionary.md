@@ -128,42 +128,47 @@ Tabela com dados corporativos tratados e validados.
 ## 📊 View: `gold.view_salary_by_dept`
 
 **Descrição:**  
-Apresenta métricas salariais por departamento.
+Apresenta métricas salariais por departamento e cargo, incluindo medidas de tendência central, dispersão e identificação de outliers.
 
 | Campo | Descrição |
 |------|----------|
 | department | Departamento |
+| position | Cargo |
 | avg_salary | Média salarial |
 | median_salary | Mediana salarial |
-| stddev_salary | Desvio padrão |
+| stdev_salary | Desvio padrão |
+| cv_salary | Coeficiente de variação (dispersão relativa) |
 | min_salary | Salário mínimo |
 | max_salary | Salário máximo |
 | qtd_employee | Quantidade de colaboradores |
-| faixa_salary | Classificação salarial |
+| flag_salary | Classificação de outliers (High Outlier / Low Outlier / Normal) |
 
 ---
 
 ## 📊 View: `gold.view_tenure`
 
 **Descrição:**  
-Apresenta o tempo de empresa (tenure) dos colaboradores.
+Apresenta o tempo de empresa dos colaboradores e métricas de retenção por departamento e tipo de contrato.
 
 | Campo | Descrição |
 |------|----------|
 | employee_id | Identificador do colaborador |
 | department | Departamento |
 | employment_type | Tipo de contrato |
-| tenure | Tempo de empresa |
-| avg_tenure | Média de tempo |
-| median_tenure | Mediana |
-| retention_band | Faixa de retenção |
+| tenure_days | Tempo de empresa em dias |
+| retention_band | Faixa de retenção (0-1, 1-3, 3-5, 5+ anos) |
+| avg_tenure | Média de tempo de empresa |
+| median_tenure | Mediana do tempo de empresa |
+| headcount_in_band | Quantidade de colaboradores por faixa |
 
 ---
 
 ## 📊 View: `gold.view_workforce_dashboard`
 
 **Descrição:**  
-Visão consolidada dos dados pessoais e corporativos para análise estratégica.
+Visão consolidada dos dados pessoais e corporativos, com métricas de demografia, salário, retenção e qualidade dos dados, utilizada para dashboards analíticos.
+
+### 🔹 Dimensões (Filtros)
 
 | Campo | Descrição |
 |------|----------|
@@ -174,12 +179,60 @@ Visão consolidada dos dados pessoais e corporativos para análise estratégica.
 | department | Departamento |
 | position | Cargo |
 | employment_type | Tipo de contrato |
-| tenure | Tempo de empresa |
+
+---
+
+### 🔹 Tempo e Retenção
+
+| Campo | Descrição |
+|------|----------|
+| tenure_days | Tempo de empresa em dias |
+| retention_band | Faixa de retenção |
+| avg_tenure_days_dept | Média de tempo de empresa por departamento |
+| median_tenure_days_dept | Mediana de tempo por departamento |
+| pct_tenure_gt_365d | Percentual de colaboradores com mais de 1 ano |
+
+---
+
+### 🔹 Métricas Salariais
+
+| Campo | Descrição |
+|------|----------|
 | salary | Salário |
-| avg_salary_dept | Média salarial do departamento |
-| headcount | Quantidade de colaboradores |
-| pct_share | Participação percentual |
-| data_quality_flags | Indicadores de qualidade |
+| avg_salary_role | Média salarial por cargo |
+| median_salary_role | Mediana salarial por cargo |
+| stddev_salary_role | Desvio padrão salarial |
+| cv_salary | Coeficiente de variação salarial |
+
+---
+
+### 🔹 Headcount e Representatividade
+
+| Campo | Descrição |
+|------|----------|
+| headcount | Quantidade de colaboradores no grupo |
+| total_dept_headcount | Total de colaboradores no departamento |
+| total_company_headcount | Total geral da empresa |
+| pct_share_global | Participação percentual no total da empresa |
+| pct_share_within_department | Participação dentro do departamento |
+
+---
+
+### 🔹 Qualidade de Dados e Governança
+
+| Campo | Descrição |
+|------|----------|
+| data_quality_status | Status de qualidade dos dados |
+| is_birth_date_suspect | Indicador de data de nascimento suspeita |
+| is_employment_type_adjusted | Indicador de ajuste no tipo de contrato |
+
+---
+
+### 🔹 Ranking
+
+| Campo | Descrição |
+|------|----------|
+| position_rank_in_department | Ranking de cargos dentro do departamento |
 
 ---
 
