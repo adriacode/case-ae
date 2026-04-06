@@ -102,6 +102,12 @@ A documentação detalhada das tabelas (Bronze, Silver e Gold) está disponível
 
 Armazena os dados brutos sem transformação.
 
+📂 Implementação:
+- `python/extract_hr_personal_data.py` → extração da API  
+- `python/ingest_data_blob_storage.py` → ingestão no Data Lake  
+- `data/` → arquivos de entrada  
+- `sql/bronze/` → estrutura das tabelas
+
 ---
 
 ## 🥈 Camada Silver
@@ -113,6 +119,9 @@ Responsável pelo tratamento e padronização:
 - Tratamento de inconsistências  
 - Validação de dados  
 
+📂 Implementação:
+- `sql/silver/` → scripts SQL com regras de negócio e transformações 
+
 ---
 
 ## 🥇 Camada Gold
@@ -122,6 +131,9 @@ Camada analítica com dados prontos para consumo:
 - Métricas salariais por departamento  
 - Tempo de empresa (tenure)  
 - Visão consolidada da força de trabalho  
+
+📂 Implementação:
+- `sql/gold/` → views analíticas para consumo em BI 
 
 ---
 
@@ -135,16 +147,6 @@ O modelo de dados representa a estrutura relacional da camada Silver, onde os da
 
 ---
 
-## 🔄 Pipeline (Azure Data Factory)
-
-<p align="center">
-  <img src="docs/adf_pipeline.png" alt="Pipeline do Data Factory" width="700"/>
-</p>
-
-O pipeline é orquestrado pelo Azure Data Factory e executa as etapas de ingestão, transformação e carga das camadas Bronze, Silver e Gold de forma automatizada.
-
----
-
 ## ✅ Qualidade de Dados
 
 Validações implementadas:
@@ -153,6 +155,31 @@ Validações implementadas:
 - Detecção de duplicidade  
 - Validação de formatos  
 - Identificação de inconsistências  
+
+📂 Implementação:
+- `sql/quality/` → regras de validação e consistência dos dados  
+
+---
+
+## 🔄 Pipeline (Azure Data Factory)
+
+<p align="center">
+  <img src="docs/adf_pipeline.png" alt="Pipeline do Data Factory" width="700"/>
+</p>
+
+O pipeline é orquestrado pelo Azure Data Factory e executa as etapas de ingestão, transformação e carga das camadas Bronze, Silver e Gold de forma automatizada.
+
+📂 Implementação:
+- Azure Data Factory → orquestração do pipeline  
+- `docs/adf_pipeline.png` → representação visual do fluxo
+
+---
+
+## 🚀 Melhorias Futuras
+
+- Implementação de cargas incrementais para otimizar o processamento e reduzir custo
+- Orquestração completa do pipeline via Azure Data Factory (remoção da execução manual em Python)
+- Monitoramento e alertas para falhas no pipeline
 
 ---
 
