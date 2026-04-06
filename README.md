@@ -1,6 +1,6 @@
 # 🎲👨‍💼 People Data Platform
 
-![Python](https://img.shields.io/badge/Python-3.10-blue)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Azure](https://img.shields.io/badge/Azure-Data%20Platform-0078D4)
 ![SQL](https://img.shields.io/badge/SQL-Database-orange)
 ![Status](https://img.shields.io/badge/Status-Completed-success)
