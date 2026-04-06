@@ -3,61 +3,85 @@
 Testes de Qualidade - Camada Bronze (hr_corporate)
 ===============================================================================
 
-Este script realiza verificações de qualidade nos dados da camada Bronze,
-com o objetivo de identificar inconsistências antes da transformação para a
-camada Silver.
+Objetivo:
+    Realizar validações de qualidade nos dados brutos da tabela 
+    bronze.hr_corporate, garantindo visibilidade sobre possíveis inconsistências 
+    antes do processo de transformação para a camada Silver.
 
-As validações incluem:
-    
-- Verificação de chaves primárias nulas ou duplicadas.
-- Identificação de espaços indesejados em campos de texto.
-- Análise de padronização de valores categóricos.
-- Validação de tipos de dados (numéricos e datas).
-- Identificação de valores nulos em campos críticos.
-- Análise de consistência entre cargo e tipo de contrato.
+Descrição:
+    A camada Bronze representa dados ingeridos da origem sem tratamento.
+    Portanto, este script tem caráter exclusivamente analítico, não devendo 
+    realizar qualquer tipo de alteração nos dados.
 
-Notas de uso:
-- Execute este script antes da construção da camada Silver.
-- Os dados na Bronze NÃO devem ser alterados, apenas analisados.
-- As inconsistências identificadas devem ser tratadas ou sinalizadas na Silver.
+Validações Aplicadas:
+
+    1. Unicidade de chave primária (employee_id)
+    2. Presença de identificadores obrigatórios
+    3. Detecção de espaços indesejados em campos textuais
+    4. Análise de domínio de valores categóricos
+    5. Validação de conversão de tipos (salário → numérico)
+    6. Validação de conversão de tipos (datas)
+    7. Identificação de nulidade em campos críticos
+    8. Consistência entre cargo (position) e tipo de contrato (employment_type)
+    9. Identificação de padrões relacionados a estagiários (Intern)
+
+Boas Práticas:
+    - Executar este script antes da carga da camada Silver.
+    - Não realizar UPDATE/DELETE nesta camada.
+    - Utilizar os resultados para tratamento, padronização e enriquecimento na Silver.
 
 ===============================================================================
 */
 
--- 1. Identifica falhas de unicidade em chaves primárias vindas da origem
-SELECT employee_id, COUNT(*) AS quantidade
+-- 1. Verificação de duplicidade na chave primária (employee_id)
+-- Identifica registros com possíveis problemas de unicidade
+SELECT 
+    employee_id, 
+    COUNT(*) AS quantidade
 FROM bronze.hr_corporate
 GROUP BY employee_id
 HAVING COUNT(*) > 1;
 
--- 2. Detecta ausência de identificadores obrigatórios nos dados brutos
+
+-- 2. Verificação de chave primária nula
+-- Identifica registros sem identificador único
 SELECT *
 FROM bronze.hr_corporate
 WHERE employee_id IS NULL;
 
--- 3. Identifica campos com espaços residuais que exigirão tratamento de TRIM
+
+-- 3. Detecção de espaços em branco indesejados (leading/trailing)
+-- Indica necessidade de aplicação de TRIM na camada Silver
 SELECT *
 FROM bronze.hr_corporate
 WHERE department LIKE ' %' OR department LIKE '% '
    OR position LIKE ' %' OR position LIKE '% '
    OR employment_type LIKE ' %' OR employment_type LIKE '% ';
 
--- 4. Avalia a dispersão de valores para planejar a padronização categórica
+
+-- 4. Análise de domínio dos campos categóricos
+-- Auxilia na padronização de valores na camada Silver
 SELECT DISTINCT department FROM bronze.hr_corporate;
 SELECT DISTINCT position FROM bronze.hr_corporate;
 SELECT DISTINCT employment_type FROM bronze.hr_corporate;
 
--- 5. Valida a compatibilidade de conversão do campo salário para numérico
+
+-- 5. Validação de conversão do campo salary para tipo numérico
+-- Identifica valores inválidos ou inconsistentes
 SELECT *
 FROM bronze.hr_corporate
 WHERE TRY_CAST(salary AS FLOAT) IS NULL;
 
--- 6. Valida a compatibilidade de conversão do campo data de admissão
+
+-- 6. Validação de conversão do campo admission_date para tipo DATE
+-- Identifica formatos inválidos de data
 SELECT *
 FROM bronze.hr_corporate
 WHERE TRY_CAST(admission_date AS DATE) IS NULL;
 
--- 7. Identifica registros com nulidade em colunas essenciais para o negócio
+
+-- 7. Verificação de nulidade em campos críticos
+-- Identifica registros incompletos para uso analítico
 SELECT *
 FROM bronze.hr_corporate
 WHERE employee_id IS NULL
@@ -66,7 +90,9 @@ WHERE employee_id IS NULL
    OR salary IS NULL
    OR admission_date IS NULL;
 
--- 8. Analisa a integridade das regras de negócio entre Cargo e Contrato
+
+-- 8. Análise de consistência entre cargo e tipo de contrato
+-- Apoia a validação de regras de negócio
 SELECT 
     position, 
     employment_type, 
@@ -75,7 +101,9 @@ FROM bronze.hr_corporate
 GROUP BY position, employment_type
 ORDER BY position;
 
--- 9. Mapeia a nomenclatura de estagiários para aplicação de regras de enriquecimento
+
+-- 9. Identificação de padrões de estagiários (Intern)
+-- Suporte à aplicação de regras de enriquecimento na camada Silver
 SELECT 
     position, 
     department, 

@@ -1,13 +1,29 @@
 /*
 ===============================================================================
-DDL Script: Criar Tabelas Silver
+DDL Script: Camada Silver
 ===============================================================================
-Propósito do script:
-    Este script é responsável por criar as tabelas na camada Silver, excluindo as tabelas existentes caso já existam.
-    Rode este script para redefinir a estrutura DDL das tabelas da camada 'silver'.
+Descrição:
+    Criação das tabelas da camada Silver responsáveis por armazenar dados
+    tratados, padronizados e validados a partir da camada Bronze.
+
+Observações:
+    - Os dados passam por transformação e tipagem adequada
+    - Aplicação de regras de qualidade e padronização
+    - Criação de campos derivados
 ===============================================================================
 */
 
+-- Garantir existência do schema
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'silver')
+BEGIN
+    EXEC('CREATE SCHEMA silver');
+END
+GO
+
+-- ============================================================================
+-- Tabela: silver.hr_personal
+-- Origem: bronze.hr_personal
+-- ============================================================================
 
 IF OBJECT_ID('silver.hr_personal', 'U') IS NOT NULL
     DROP TABLE silver.hr_personal;
@@ -40,8 +56,13 @@ CREATE TABLE silver.hr_personal (
 );
 GO
 
+-- ============================================================================
+-- Tabela: silver.hr_corporate
+-- Origem: bronze.hr_corporate
+-- ============================================================================
+
 IF OBJECT_ID('silver.hr_corporate', 'U') IS NOT NULL
-	DROP TABLE silver.hr_corporate;
+    DROP TABLE silver.hr_corporate;
 GO
 
 CREATE TABLE silver.hr_corporate (

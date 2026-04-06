@@ -1,12 +1,29 @@
 /*
 ===============================================================================
-DDL Script: Criar Tabelas Bronze
+DDL Script: Camada Bronze
 ===============================================================================
-Propósito do script:
-    Este script é responsável por criar as tabelas na camada Bronze, excluindo as tabelas existentes caso já existam.
-    Rode este script para redefinir a estrutura DDL das tabelas da camada 'bronze'.
+Descrição:
+    Criação das tabelas da camada Bronze responsáveis por armazenar dados brutos
+    provenientes das fontes (API e arquivos).
+
+Observações:
+    - Os dados são mantidos no formato original (sem tratamento)
+    - Tipos NVARCHAR são utilizados para evitar perda de informação
+    - A limpeza e padronização ocorrem na camada Silver
 ===============================================================================
 */
+
+-- Garantir existência do schema
+IF NOT EXISTS (SELECT 1 FROM sys.schemas WHERE name = 'bronze')
+BEGIN
+    EXEC('CREATE SCHEMA bronze');
+END
+GO
+
+-- ============================================================================
+-- Tabela: bronze.hr_personal
+-- Origem: API (dados pessoais)
+-- ============================================================================
 
 IF OBJECT_ID('bronze.hr_personal', 'U') IS NOT NULL
     DROP TABLE bronze.hr_personal;
@@ -31,21 +48,26 @@ CREATE TABLE bronze.hr_personal (
     longitude NVARCHAR(50),
     website NVARCHAR(255),
     image NVARCHAR(255),
-    create_date DATETIME2 DEFAULT GETDATE()
+    create_date DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 GO
 
+-- ============================================================================
+-- Tabela: bronze.hr_corporate
+-- Origem: Arquivo CSV (dados corporativos)
+-- ============================================================================
+
 IF OBJECT_ID('bronze.hr_corporate', 'U') IS NOT NULL
-	DROP TABLE bronze.hr_corporate;
+    DROP TABLE bronze.hr_corporate;
 GO
 
 CREATE TABLE bronze.hr_corporate (
-	employee_id INT,
-	department NVARCHAR(50),
-	position NVARCHAR(50),
-	salary NVARCHAR(50),
-	admission_date NVARCHAR(50),
-	employment_type NVARCHAR(50),
-    create_date DATETIME2 DEFAULT GETDATE()
+    employee_id INT,
+    department NVARCHAR(50),
+    position NVARCHAR(50),
+    salary NVARCHAR(50),
+    admission_date NVARCHAR(50),
+    employment_type NVARCHAR(50),
+    create_date DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 GO
