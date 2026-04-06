@@ -9,13 +9,13 @@
 
 ## 📌 Visão Geral
 
-Este projeto implementa uma plataforma de dados para consolidação e tratamento de informações de Recursos Humanos da *DataPeople Corp.*
+Este projeto implementa uma plataforma de dados para consolidação e tratamento de informações de Recursos Humanos da **DataPeople Corp.**
 
 A solução integra dados provenientes de múltiplas fontes (API e arquivos CSV), aplicando processos estruturados de ingestão, padronização, validação e enriquecimento.
 
 O principal objetivo é garantir que os dados estejam consistentes, confiáveis e prontos para análise, apoiando decisões estratégicas relacionadas à força de trabalho.
 
-A arquitetura foi construída seguindo o modelo *Medalhão (Bronze → Silver → Gold)*, promovendo organização, escalabilidade e governança dos dados.
+A arquitetura foi construída seguindo o modelo **Medalhão (Bronze → Silver → Gold)**, promovendo organização, escalabilidade e governança dos dados.
 
 ---
 
@@ -223,6 +223,6 @@ A orquestração permite:
 
 ## 🎯 Objetivo
 
-Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da DataPeople Corp.
+Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da **DataPeople Corp.**
 
 ---
