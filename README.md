@@ -1,4 +1,4 @@
-# 📊 People Data Platform
+# 🎲👨‍💼 People Data Platform
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![Azure](https://img.shields.io/badge/Azure-Data%20Platform-0078D4)
@@ -40,7 +40,7 @@ A solução utiliza serviços em nuvem da Azure:
 ---
 
 ## 📁 Estrutura do Projeto
-
+```
 case-ae/
 │
 ├── data/
@@ -63,7 +63,7 @@ case-ae/
 │
 ├── .env
 └── README.md
-
+```
 ---
 
 ## 📘 Data Dictionary
