@@ -125,6 +125,26 @@ Camada analítica com dados prontos para consumo:
 
 ---
 
+## 🧠 Modelo de Dados
+
+<p align="center">
+  <img src="docs/data_model.png" alt="Modelo de Dados" width="700"/>
+</p>
+
+O modelo de dados representa a estrutura relacional da camada Silver, onde os dados pessoais e corporativos são integrados, servindo como base para a construção das views analíticas na camada Gold.
+
+---
+
+## 🔄 Pipeline (Azure Data Factory)
+
+<p align="center">
+  <img src="docs/adf_pipeline.png" alt="Pipeline do Data Factory" width="700"/>
+</p>
+
+O pipeline é orquestrado pelo Azure Data Factory e executa as etapas de ingestão, transformação e carga das camadas Bronze, Silver e Gold de forma automatizada.
+
+---
+
 ## ✅ Qualidade de Dados
 
 Validações implementadas:
