@@ -9,11 +9,13 @@
 
 ## 📌 Visão Geral
 
-Este projeto implementa um pipeline de dados para consolidação de informações de Recursos Humanos da **DataPeople Corp.**
+Este projeto implementa uma plataforma de dados para consolidação e tratamento de informações de Recursos Humanos da *DataPeople Corp.*
 
-A solução integra dados de múltiplas fontes (API e arquivos CSV), aplicando processos de padronização, validação e enriquecimento, com o objetivo de disponibilizar dados confiáveis para análise estratégica.
+A solução integra dados provenientes de múltiplas fontes (API e arquivos CSV), aplicando processos estruturados de ingestão, padronização, validação e enriquecimento.
 
-A arquitetura segue o modelo **Medalhão (Bronze → Silver → Gold)**, garantindo escalabilidade, governança e qualidade dos dados.
+O principal objetivo é garantir que os dados estejam consistentes, confiáveis e prontos para análise, apoiando decisões estratégicas relacionadas à força de trabalho.
+
+A arquitetura foi construída seguindo o modelo *Medalhão (Bronze → Silver → Gold)*, promovendo organização, escalabilidade e governança dos dados.
 
 ---
 
@@ -21,21 +23,24 @@ A arquitetura segue o modelo **Medalhão (Bronze → Silver → Gold)**, garanti
 
 ![Arquitetura do Projeto](docs/architecture.jpg)
 
-A solução utiliza serviços em nuvem da Azure:
+A solução utiliza serviços em nuvem da Azure para garantir escalabilidade e orquestração eficiente:
 
-- **Azure Storage Account** → armazenamento dos dados brutos  
-- **Azure Data Factory** → orquestração do pipeline  
-- **Azure SQL Database** → processamento e camada analítica  
-
+- Azure Storage Account → armazenamento dos dados brutos (Data Lake)
+- Azure Data Factory → orquestração e automação do pipeline
+- Azure SQL Database → processamento, modelagem e camada analítica
 ---
 
 ## 🔄 Fluxo do Pipeline
 
-1. Extração dos dados da API via Python  
-2. Transformação inicial (normalização de endereço)  
-3. Ingestão no Data Lake (Bronze)  
-4. Processamento e padronização (Silver)  
-5. Criação de views analíticas (Gold)  
+O pipeline foi estruturado para garantir rastreabilidade e qualidade em todas as etapas:
+
+1. Extração dos dados da API via Python
+2. Transformação inicial (normalização de endereço)
+3. Ingestão no Data Lake (camada Bronze)
+4. Processamento, padronização e aplicação de regras (camada Silver)
+5. Criação de estruturas analíticas para consumo (camada Gold)
+
+Cada etapa foi projetada para isolar responsabilidades, facilitando manutenção e evolução do pipeline.
 
 ---
 
@@ -64,6 +69,9 @@ case-ae/
 ├── .env
 └── README.md
 ```
+
+A estrutura foi organizada para separar claramente ingestão, transformação, modelagem e validação dos dados.
+
 ---
 
 ## 📘 Data Dictionary
@@ -71,6 +79,8 @@ case-ae/
 A documentação detalhada das tabelas (Bronze, Silver e Gold) está disponível em:
 
 👉 [Data Dictionary](docs/data_dictionary.md)
+
+O dicionário de dados garante padronização, entendimento das estruturas e rastreabilidade das transformações.
 
 ---
 
@@ -96,11 +106,17 @@ A documentação detalhada das tabelas (Bronze, Silver e Gold) está disponível
 - admission_date  
 - employment_type  
 
+As diferentes fontes refletem cenários reais de integração de dados em ambientes corporativos.
+
 ---
 
 ## 🥉 Camada Bronze
 
-Armazena os dados brutos sem transformação.
+Responsável por armazenar os dados brutos exatamente como são recebidos das fontes.
+
+- Nenhuma transformação é aplicada
+- Mantém fidelidade total à origem
+- Permite rastreabilidade e auditoria
 
 📂 Implementação:
 - `python/extract_hr_personal_data.py` → extração da API  
@@ -112,25 +128,32 @@ Armazena os dados brutos sem transformação.
 
 ## 🥈 Camada Silver
 
-Responsável pelo tratamento e padronização:
+Camada responsável pelo tratamento e padronização dos dados.
 
-- Conversão de tipos  
-- Padronização de campos  
-- Tratamento de inconsistências  
-- Validação de dados  
+Principais processos aplicados:
+
+- Conversão de tipos de dados
+- Padronização de valores categóricos
+- Remoção de inconsistências e espaços indevidos
+- Aplicação de regras de negócio
+- Enriquecimento dos dados 
 
 📂 Implementação:
-- `sql/silver/` → scripts SQL com regras de negócio e transformações 
+- `sql/silver/` → scripts SQL com transformações e regras
 
 ---
 
 ## 🥇 Camada Gold
 
-Camada analítica com dados prontos para consumo:
+Camada analítica com dados consolidados e preparados para consumo.
 
-- Métricas salariais por departamento  
-- Tempo de empresa (tenure)  
-- Visão consolidada da força de trabalho  
+Inclui:
+
+- Métricas salariais por departamento
+- Tempo de empresa (tenure)
+- Visão integrada da força de trabalho
+
+Essa camada facilita o consumo por ferramentas de BI e análises estratégicas.
 
 📂 Implementação:
 - `sql/gold/` → views analíticas para consumo em BI 
@@ -149,12 +172,12 @@ O modelo de dados representa a estrutura relacional da camada Silver, onde os da
 
 ## ✅ Qualidade de Dados
 
-Validações implementadas:
+A qualidade dos dados é garantida por um conjunto de validações implementadas ao longo do pipeline:
 
-- Verificação de valores nulos  
-- Detecção de duplicidade  
-- Validação de formatos  
-- Identificação de inconsistências  
+- Verificação de valores nulos em campos críticos
+- Detecção de duplicidade de registros
+- Validação de formatos (datas, numéricos, e-mails)
+- Identificação de inconsistências entre campos relacionados
 
 📂 Implementação:
 - `sql/quality/` → regras de validação e consistência dos dados  
@@ -167,7 +190,13 @@ Validações implementadas:
   <img src="docs/adf_pipeline.png" alt="Pipeline do Data Factory" width="700"/>
 </p>
 
-O pipeline é orquestrado pelo Azure Data Factory e executa as etapas de ingestão, transformação e carga das camadas Bronze, Silver e Gold de forma automatizada.
+O pipeline é orquestrado pelo Azure Data Factory, garantindo execução automatizada e organizada das etapas de ingestão, transformação e carga.
+
+A orquestração permite:
+
+- Execução controlada das etapas
+- Facilidade de monitoramento
+- Escalabilidade do processo
 
 📂 Implementação:
 - Azure Data Factory → orquestração do pipeline  
@@ -194,6 +223,6 @@ O pipeline é orquestrado pelo Azure Data Factory e executa as etapas de ingest�
 
 ## 🎯 Objetivo
 
-Fornecer uma base de dados confiável, padronizada e escalável para suportar análises estratégicas e tomada de decisão.
+Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da DataPeople Corp.
 
 ---
