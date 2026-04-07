@@ -19,6 +19,12 @@ A arquitetura foi construída seguindo o modelo **Medalhão (Bronze → Silver �
 
 ---
 
+## 🎯 Objetivo
+
+Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da **DataPeople Corp.**
+
+---
+
 ## 🏗️ Arquitetura
 
 ![Arquitetura do Projeto](docs/architecture.jpg)
@@ -52,7 +58,11 @@ case-ae/
 │
 ├── docs/
 │   ├── data_dictionary.md
-│   └── architecture.jpg
+│   ├── architecture.jpg
+│   ├── data_model.png
+│   └── adf_pipeline.png
+│
+│
 │
 ├── python/
 │   ├── extract_hr_personal_data.py
@@ -219,10 +229,3 @@ A orquestração permite:
 - Azure Storage  
 - Azure SQL Database  
 
----
-
-## 🎯 Objetivo
-
-Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da **DataPeople Corp.**
-
----
