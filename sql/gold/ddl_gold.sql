@@ -14,9 +14,6 @@ Fonte:
     silver.hr_personal
     silver.hr_corporate
 
-Observações:
-    - As views são utilizadas diretamente em ferramentas de BI (ex: Power BI)
-    - São aplicadas agregações, cálculos estatísticos e regras de negócio
 ===============================================================================
 */
 
