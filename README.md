@@ -116,8 +116,6 @@ O dicionário de dados garante padronização, entendimento das estruturas e ras
 - admission_date  
 - employment_type  
 
-As diferentes fontes refletem cenários reais de integração de dados em ambientes corporativos.
-
 ---
 
 ## 🥉 Camada Bronze
