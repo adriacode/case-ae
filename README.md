@@ -1,4 +1,4 @@
-# 🎲👨‍💼 People Data Platform
+# 👨‍💼 People Data Platform
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![Azure](https://img.shields.io/badge/Azure-Data%20Platform-0078D4)
