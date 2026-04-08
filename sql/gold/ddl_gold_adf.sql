@@ -20,8 +20,7 @@ Fonte:
     silver.hr_corporate
 
 Observações:
-    - As views são recriadas a cada execução
-    - O script é idempotente (DROP + CREATE)
+    - As views são recriadas a cada execução 
 ===============================================================================
 */
 
