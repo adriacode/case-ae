@@ -168,7 +168,7 @@ Apresenta o tempo de empresa dos colaboradores e métricas de retenção por dep
 **Descrição:**  
 Visão consolidada dos dados pessoais e corporativos, com métricas de demografia, salário, retenção e qualidade dos dados, utilizada para dashboards analíticos.
 
-### 🔹 Dimensões (Filtros)
+### Dimensões (Filtros)
 
 | Campo | Descrição |
 |------|----------|
@@ -182,7 +182,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-### 🔹 Tempo e Retenção
+### Tempo e Retenção
 
 | Campo | Descrição |
 |------|----------|
@@ -194,7 +194,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-### 🔹 Métricas Salariais
+### Métricas Salariais
 
 | Campo | Descrição |
 |------|----------|
@@ -206,7 +206,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-### 🔹 Headcount e Representatividade
+### Headcount e Representatividade
 
 | Campo | Descrição |
 |------|----------|
@@ -218,7 +218,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-### 🔹 Qualidade de Dados e Governança
+### Qualidade de Dados e Governança
 
 | Campo | Descrição |
 |------|----------|
@@ -228,7 +228,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-### 🔹 Ranking
+### Ranking
 
 | Campo | Descrição |
 |------|----------|
@@ -246,16 +246,3 @@ As seguintes padronizações foram aplicadas na camada Silver:
 - Conversão de tipos (texto → DATE / DECIMAL)
 - Criação de colunas derivadas
 - Implementação de flags de qualidade de dados
-
----
-
-# 🎯 Objetivo do Data Dictionary
-
-Este dicionário de dados tem como objetivo:
-
-- Facilitar o entendimento da estrutura de dados  
-- Garantir padronização e governança  
-- Apoiar a manutenção e evolução do pipeline  
-- Servir como referência para analistas e desenvolvedores  
-
----
