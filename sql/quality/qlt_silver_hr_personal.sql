@@ -100,7 +100,6 @@ WHERE birth_date > GETDATE()
 
 
 -- 7. Validação da estrutura mínima de e-mail
--- Garante formato básico de comunicação
 SELECT *
 FROM silver.hr_personal
 WHERE email NOT LIKE '%_@_%._%';

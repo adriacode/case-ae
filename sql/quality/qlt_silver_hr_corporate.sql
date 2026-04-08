@@ -72,7 +72,6 @@ SELECT DISTINCT employment_type FROM silver.hr_corporate ORDER BY employment_typ
 
 
 -- 5. Verificação de nulidade em campos críticos
--- Dados essenciais para análises e processos de negócio
 SELECT *
 FROM silver.hr_corporate
 WHERE department IS NULL
@@ -96,7 +95,7 @@ WHERE admission_date > GETDATE()
    OR admission_date < '1990-01-01';
 
 
--- 8. Validação de domínio do tipo de contrato
+-- 8. Validação do tipo de contrato
 -- Garante padronização em UPPER CASE e valores permitidos
 SELECT *
 FROM silver.hr_corporate
@@ -104,7 +103,6 @@ WHERE employment_type NOT IN ('CLT', 'INTERN', 'PJ', 'TEMPORARY');
 
 
 -- 9. Análise de consistência entre cargo e tipo de contrato
--- Verifica aderência às regras de negócio
 SELECT 
     position, 
     employment_type, 

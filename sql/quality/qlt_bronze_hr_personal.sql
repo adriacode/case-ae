@@ -77,7 +77,7 @@ WHERE firstname IS NULL
    OR longitude IS NULL;
 
 
--- 4. Detecção de espaços em branco indesejados (leading/trailing)
+-- 4. Detecção de espaços em branco indesejados
 -- Indica necessidade de TRIM na camada Silver
 SELECT *
 FROM bronze.hr_personal
@@ -89,7 +89,6 @@ WHERE firstname LIKE ' %' OR firstname LIKE '% '
 
 
 -- 5. Validação da estrutura de e-mails
--- Identifica formatos inválidos antes da normalização (LOWER)
 SELECT email
 FROM bronze.hr_personal
 WHERE email NOT LIKE '%@%.%' 
@@ -149,7 +148,6 @@ HAVING COUNT(DISTINCT country_code) > 1;
 
 
 -- 12. Validação de URLs (website e image)
--- Verifica presença de protocolo HTTP/HTTPS
 SELECT *
 FROM bronze.hr_personal
 WHERE website NOT LIKE 'http%' 
@@ -176,8 +174,7 @@ WHERE zipcode IS NULL
    OR LEN(zipcode) < 3;
 
 
--- 15. Verificação de número do logradouro
--- Campo importante para localização
+-- 15. Verificação de número do endereço (buildingNumber)
 SELECT *
 FROM bronze.hr_personal
 WHERE buildingNumber IS NULL;

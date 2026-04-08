@@ -59,8 +59,7 @@ WHERE department LIKE ' %' OR department LIKE '% '
    OR employment_type LIKE ' %' OR employment_type LIKE '% ';
 
 
--- 4. Análise de domínio dos campos categóricos
--- Auxilia na padronização de valores na camada Silver
+-- 4. Análise de campos categóricos
 SELECT DISTINCT department FROM bronze.hr_corporate;
 SELECT DISTINCT position FROM bronze.hr_corporate;
 SELECT DISTINCT employment_type FROM bronze.hr_corporate;
@@ -92,7 +91,6 @@ WHERE employee_id IS NULL
 
 
 -- 8. Análise de consistência entre cargo e tipo de contrato
--- Apoia a validação de regras de negócio
 SELECT 
     position, 
     employment_type, 
@@ -103,7 +101,6 @@ ORDER BY position;
 
 
 -- 9. Identificação de padrões de estagiários (Intern)
--- Suporte à aplicação de regras de enriquecimento na camada Silver
 SELECT 
     position, 
     department, 
