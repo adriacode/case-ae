@@ -19,13 +19,13 @@ A arquitetura foi construída seguindo o modelo **Medalhão (Bronze → Silver �
 
 ---
 
-## 🎯 Objetivo
+## Objetivo
 
 Disponibilizar uma base de dados confiável, padronizada e escalável, capaz de suportar análises estratégicas e auxiliar na tomada de decisão da **DataPeople Corp.**
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ![Arquitetura do Projeto](docs/architecture.jpg)
 
@@ -170,7 +170,7 @@ Essa camada facilita o consumo por ferramentas de BI e análises estratégicas.
 
 ---
 
-## 🧠 Modelo de Dados
+## Modelo de Dados
 
 <p align="center">
   <img src="docs/data_model.png" alt="Modelo de Dados" width="700"/>
@@ -214,7 +214,7 @@ A orquestração permite:
 
 ---
 
-## 🚀 Melhorias Futuras
+## Melhorias Futuras
 
 - Implementação de cargas incrementais para otimizar o processamento e reduzir custo
 - Orquestração completa do pipeline via Azure Data Factory (remoção da execução manual em Python)
