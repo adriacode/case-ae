@@ -117,7 +117,7 @@ O dicionário de dados garante padronização, entendimento das estruturas e ras
 
 ---
 
-## 🥉 Camada Bronze
+## Camada Bronze (Dado Bruto)
 
 Responsável por armazenar os dados brutos exatamente como são recebidos das fontes.
 
@@ -133,7 +133,7 @@ Responsável por armazenar os dados brutos exatamente como são recebidos das fo
 
 ---
 
-## 🥈 Camada Silver
+## Camada Silver (Limpo e padronizado)
 
 Camada responsável pelo tratamento e padronização dos dados.
 
@@ -150,7 +150,7 @@ Principais processos aplicados:
 
 ---
 
-## 🥇 Camada Gold
+## Camada Gold (Análise)
 
 Camada analítica com dados consolidados e preparados para consumo.
 

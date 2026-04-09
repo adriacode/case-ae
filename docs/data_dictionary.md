@@ -12,7 +12,7 @@ Cada camada possui um papel específico no pipeline:
 
 ---
 
-# 🥉 Camada Bronze (Dado bruto)
+# Camada Bronze (Dado bruto)
 
 ## Tabela: `bronze.hr_personal`
 
@@ -60,7 +60,7 @@ Armazena dados corporativos dos colaboradores provenientes de arquivos CSV, sem 
 
 ---
 
-# 🥈 Camada Silver (Limpo e padronizado)
+# Camada Silver (Limpo e padronizado)
 
 ## Tabela: `silver.hr_personal`
 
@@ -123,7 +123,7 @@ Tabela com dados corporativos tratados e validados.
 
 ---
 
-# 🥇 Camada Gold (Analytics)
+# Camada Gold (Análise)
 
 ## View: `gold.view_salary_by_dept`
 
