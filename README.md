@@ -35,7 +35,7 @@ A solução utiliza serviços em nuvem da Azure para garantir escalabilidade e o
 - Azure SQL Database → processamento, modelagem e camada analítica
 ---
 
-## 🔄 Fluxo do Pipeline
+## Fluxo do Pipeline
 
 O pipeline foi estruturado para garantir rastreabilidade e qualidade em todas as etapas:
 
@@ -83,11 +83,11 @@ A estrutura foi organizada para separar claramente ingestão, transformação, m
 
 ---
 
-## 📘 Data Dictionary
+## Dicionário de Dados
 
 A documentação detalhada das tabelas (Bronze, Silver e Gold) está disponível em:
 
-👉 [Data Dictionary](docs/data_dictionary.md)
+- [Data Dictionary](docs/data_dictionary.md)
 
 O dicionário de dados garante padronização, entendimento das estruturas e rastreabilidade das transformações.
 
@@ -177,7 +177,7 @@ O modelo de dados representa a estrutura relacional da camada Silver, onde os da
 
 ---
 
-## ✅ Qualidade de Dados
+## Qualidade de Dados
 
 A qualidade dos dados é garantida por um conjunto de validações implementadas ao longo do pipeline:
 
@@ -191,7 +191,7 @@ A qualidade dos dados é garantida por um conjunto de validações implementadas
 
 ---
 
-## 🔄 Pipeline (Azure Data Factory)
+## Pipeline (Azure Data Factory)
 
 <p align="center">
   <img src="docs/adf_pipeline.png" alt="Pipeline do Data Factory" width="700"/>

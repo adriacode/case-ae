@@ -1,6 +1,6 @@
-# 📘 Data Dictionary — People Data Platform
+# Data Dictionary — People Data Platform
 
-## 📌 Visão Geral
+## Visão Geral
 
 Este documento descreve a estrutura de dados do projeto **People Data Platform**, organizado segundo a arquitetura **Medalhão (Bronze → Silver → Gold)**.
 
@@ -12,9 +12,9 @@ Cada camada possui um papel específico no pipeline:
 
 ---
 
-# 🥉 Camada Bronze (Raw Data)
+# 🥉 Camada Bronze (Dado bruto)
 
-## 📄 Tabela: `bronze.hr_personal`
+## Tabela: `bronze.hr_personal`
 
 **Descrição:**  
 Armazena dados pessoais dos colaboradores conforme recebidos da API, sem qualquer transformação.
@@ -43,7 +43,7 @@ Armazena dados pessoais dos colaboradores conforme recebidos da API, sem qualque
 
 ---
 
-## 📄 Tabela: `bronze.hr_corporate`
+## Tabela: `bronze.hr_corporate`
 
 **Descrição:**  
 Armazena dados corporativos dos colaboradores provenientes de arquivos CSV, sem tratamento.
@@ -60,9 +60,9 @@ Armazena dados corporativos dos colaboradores provenientes de arquivos CSV, sem 
 
 ---
 
-# 🥈 Camada Silver (Clean & Standardized)
+# 🥈 Camada Silver (Limpo e padronizado)
 
-## 📄 Tabela: `silver.hr_personal`
+## Tabela: `silver.hr_personal`
 
 **Descrição:**  
 Tabela com dados pessoais tratados, tipados corretamente e padronizados.
@@ -99,7 +99,7 @@ Tabela com dados pessoais tratados, tipados corretamente e padronizados.
 
 ---
 
-## 📄 Tabela: `silver.hr_corporate`
+## Tabela: `silver.hr_corporate`
 
 **Descrição:**  
 Tabela com dados corporativos tratados e validados.
@@ -125,7 +125,7 @@ Tabela com dados corporativos tratados e validados.
 
 # 🥇 Camada Gold (Analytics)
 
-## 📊 View: `gold.view_salary_by_dept`
+## View: `gold.view_salary_by_dept`
 
 **Descrição:**  
 Apresenta métricas salariais por departamento e cargo, incluindo medidas de tendência central, dispersão e identificação de outliers.
@@ -145,7 +145,7 @@ Apresenta métricas salariais por departamento e cargo, incluindo medidas de ten
 
 ---
 
-## 📊 View: `gold.view_tenure`
+## View: `gold.view_tenure`
 
 **Descrição:**  
 Apresenta o tempo de empresa dos colaboradores e métricas de retenção por departamento e tipo de contrato.
@@ -163,7 +163,7 @@ Apresenta o tempo de empresa dos colaboradores e métricas de retenção por dep
 
 ---
 
-## 📊 View: `gold.view_workforce_dashboard`
+## View: `gold.view_workforce_dashboard`
 
 **Descrição:**  
 Visão consolidada dos dados pessoais e corporativos, com métricas de demografia, salário, retenção e qualidade dos dados, utilizada para dashboards analíticos.
@@ -236,7 +236,7 @@ Visão consolidada dos dados pessoais e corporativos, com métricas de demografi
 
 ---
 
-# ⚙️ Padronizações e Regras Gerais
+# Padronizações e Regras Gerais
 
 As seguintes padronizações foram aplicadas na camada Silver:
 
