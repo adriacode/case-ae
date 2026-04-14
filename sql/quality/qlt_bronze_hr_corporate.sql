@@ -109,3 +109,11 @@ FROM bronze.hr_corporate
 WHERE position LIKE '%Intern%'
 GROUP BY position, department
 ORDER BY position;
+
+-- 10. Quantidade de colaboradores por tipo de contrato
+SELECT 
+    employment_type, 
+    COUNT(*) AS quantidade
+FROM bronze.hr_corporate
+GROUP BY employment_type
+ORDER BY quantidade DESC;

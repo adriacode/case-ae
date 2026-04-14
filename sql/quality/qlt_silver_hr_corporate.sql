@@ -121,3 +121,25 @@ FROM silver.hr_corporate
 WHERE position LIKE '%Intern%'
 GROUP BY department
 ORDER BY total_interns DESC;
+
+-- 11. Quantidade de colaboradores por tipo de contrato
+SELECT 
+    employment_type, 
+    COUNT(*) AS quantidade
+FROM silver.hr_corporate
+GROUP BY employment_type
+ORDER BY quantidade DESC;
+
+-- 12. Total de registros que precisaram de ajuste no tipo de contrato
+SELECT 
+    is_employment_type_adjusted, 
+    COUNT(*) AS total
+FROM silver.hr_corporate
+GROUP BY is_employment_type_adjusted;
+
+-- 13. Total de registros com data de nascimento suspeita
+SELECT 
+    is_birth_date_suspect, 
+    COUNT(*) AS total
+FROM silver.hr_personal
+GROUP BY is_birth_date_suspect;
