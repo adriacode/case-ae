@@ -9,7 +9,7 @@ Objetivo:
 
 Validações Aplicadas:
     1. Integridade de Headcount entre camadas (Bronze vs Silver vs Gold)
-    2. Auditoria de Status Salarial (Confirmação de 100% Normal)
+    2. Auditoria de Status Salarial (Normal vs Outlier)
     3. Distribuição de Retenção (Contagem de indivíduos únicos)
 
 ===============================================================================
