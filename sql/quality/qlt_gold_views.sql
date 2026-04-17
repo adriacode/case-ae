@@ -24,7 +24,7 @@ UNION ALL
 SELECT 'Gold (Painel Geral)' AS camada, COUNT(*) AS total FROM gold.view_workforce_dashboard;
 
 
--- 2. Validação de Outliers Salariais (Base para o Slide 17)
+-- 2. Validação de Outliers Salariais 
 -- Confirma se todos os colaboradores estão dentro da faixa 'Normal'
 SELECT 
     flag_salary, 
@@ -34,7 +34,7 @@ FROM gold.view_salary_by_dept
 GROUP BY flag_salary;
 
 
--- 3. Contagem de Colaboradores por Faixa de Retenção (Base para o Slide 18)
+-- 3. Contagem de Colaboradores por Faixa de Retenção 
 -- Utiliza COUNT(DISTINCT) para evitar duplicidade de soma em views agregadas
 SELECT 
     retention_band, 
